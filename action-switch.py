@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import configparser
+import ConfigParser
 from hermes_python.hermes import Hermes
 from hermes_python.ffi.utils import MqttOptions
 from hermes_python.ontology import *
 import io
 import requests
 import json
-import jellyfish
+# import jellyfish
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
@@ -27,12 +27,12 @@ def read_configuration_file(configuration_file):
     except (IOError, configparser.Error) as e:
         return dict()
 
+
 def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     action_wrapper(hermes, intentMessage, conf)
 
 
-    
 def getSceneNames(conf,myListSceneOrSwitch):
     myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
@@ -41,6 +41,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
         myName=scene["Name"].encode('utf-8')
         myListSceneOrSwitch[(scene["idx"])] = {'Type':'switchscene','Name':myName}
     return myListSceneOrSwitch
+
 
 def getSwitchNames(conf,myListSceneOrSwitch):
     myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
@@ -51,8 +52,8 @@ def getSwitchNames(conf,myListSceneOrSwitch):
         myListSceneOrSwitch[(sw["idx"])] = {'Type':'switchlight','Name':myName}
     return myListSceneOrSwitch
 
-def BuildActionSlotList(intent):
 
+def BuildActionSlotList(intent):
     intentSwitchList=list()
     intentSwitchActionList=list()
     intentSwitchState='None' #by default if no action
@@ -83,12 +84,14 @@ def BuildActionSlotList(intent):
             print(mySwitch+"------>"+intentSwitchState)
     return intentSwitchActionList
 
+
 def curlCmd(idx,myCmd,myParam,conf):
     command_url="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param='+myParam+'&idx='+str(idx)+'&switchcmd='+myCmd
     ignore_result = requests.get(command_url)
 
+
 def ActionneEntity(name,action,myListSceneOrSwitch,conf):
-#derived from nice work of https://github.com/iMartyn/domoticz-snips
+    #derived from nice work of https://github.com/iMartyn/domoticz-snips
     lowest_distance = MAX_JARO_DISTANCE
     lowest_idx = 65534
     lowest_name = "Unknown"
@@ -115,13 +118,13 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
         #hermes.publish_end_session(intent_message.session_id, "j'allume "+lowest_name)
     else:
         return False,DomoticzRealName
-    
+
 
 def subscribe_intent_callback(hermes, intentMessage):    
     conf = read_configuration_file(CONFIG_INI)
     print(conf)
     #a=IntentClassifierResult(intentMessage).intent_name
-    hermes.publish_continue_session(intentMessage.session_id, "OK",["ryanrudak:switch","ryanrudak:dimmBefehle"])
+    hermes.publish_continue_session(intentMessage.session_id, u"OK",["ryanrudak:switch","ryanrudak:dimmBefehle"])
     if len(intentMessage.slots.OrdreDivers) > 0:
      print('---------OrdreDivers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
@@ -129,21 +132,22 @@ def subscribe_intent_callback(hermes, intentMessage):
      print('---------Ordre Action----------')
      action_wrapperOrdre(hermes, intentMessage, conf)
 
+
 def action_wrapperOrdreDirect(hermes, intentMessage, conf):
     myListSceneOrSwitch=dict()
     myListSceneOrSwitch= getSceneNames(conf,myListSceneOrSwitch)
-    actionText = "{}".format(str(intentMessage.slots.OrdreDivers.first().value))
+    actionText = u"{}".format(str(intentMessage.slots.OrdreDivers.first().value))
     print("actionText "+actionText)
     DomoticzRealName=""
     MyAction=ActionneEntity(actionText,'On',myListSceneOrSwitch,conf)
-    result_sentence = "OK {}".format(str(MyAction[1]))  # The response that will be said out loud by the TTS engine.
+    result_sentence = u"OK {}".format(str(MyAction[1]))  # The response that will be said out loud by the TTS engine.
 
     if MyAction[0] : 
         hermes.publish_end_session(intentMessage.session_id, result_sentence)
     else:
         print("pas d action")
-        hermes.publish_end_session(intentMessage.session_id, "Entschuldigung, es ist etwas schief gegangen.")
-    
+        hermes.publish_end_session(intentMessage.session_id, u"Entschuldigung, es ist etwas schief gegangen.")
+
 
 def action_wrapperOrdre(hermes, intentMessage, conf):
     myListSceneOrSwitch=dict()
@@ -157,15 +161,15 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
         DomoticzRealName=Match[1]
         myAction=myAction and Match[0]
         if intentSwitchAction["State"]=="On": 
-            texte="Einschalten"
+            texte=u"Einschalten"
         else:
-            texte="Ausschalten"
-        actionText='{}, {} {}'.format(actionText,texte,str(DomoticzRealName))
+            texte=u"Ausschalten"
+        actionText=u'{}, {} {}'.format(actionText,texte,str(DomoticzRealName))
     if myAction and len(intentSwitchActionList)>0: 
         hermes.publish_end_session(intentMessage.session_id, actionText)
     else:
-        hermes.publish_end_session(intentMessage.session_id, "Entschuldigung, ich habe es nicht verstanden.")
-    
+        hermes.publish_end_session(intentMessage.session_id, u"Entschuldigung, ich habe es nicht verstanden.")
+
 
 if __name__ == "__main__":
     mqtt_opts = MqttOptions()

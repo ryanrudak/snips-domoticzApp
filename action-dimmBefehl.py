@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import configparser
+import ConfigParser
 from hermes_python.hermes import Hermes
 from hermes_python.ffi.utils import MqttOptions
 from hermes_python.ontology import *
@@ -24,13 +24,14 @@ def read_configuration_file(configuration_file):
     except (IOError, configparser.Error) as e:
         return dict()
 
+
 def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     action_wrapper(hermes, intentMessage, conf)
 
 
-def action_wrapper(hermes, intentMessage, conf):
-    
+# def action_wrapper(hermes, intentMessage, conf):
+
 
 
 if __name__ == "__main__":
