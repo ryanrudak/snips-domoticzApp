@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# import ConfigParser
+import configparser
 from hermes_python.hermes import Hermes
 from hermes_python.ffi.utils import MqttOptions
 from hermes_python.ontology import *
@@ -26,7 +26,6 @@ def read_configuration_file(configuration_file):
             return conf_parser.to_dict()
     except (IOError, configparser.Error) as e:
         return dict()
-
 
 def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
