@@ -8,7 +8,7 @@ from hermes_python.ontology import *
 import io
 import requests
 import json
-# import jellyfish
+import jellyfish
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
