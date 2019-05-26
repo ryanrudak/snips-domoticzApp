@@ -123,7 +123,7 @@ def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     print(conf)
     #a=IntentClassifierResult(intentMessage).intent_name
-    hermes.publish_continue_session(intentMessage.session_id, u"OK",["ryanrudak:switch","ryanrudak:dimmBefehle"])
+    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
     if len(intentMessage.slots.OrdreDivers) > 0:
      print('---------OrdreDivers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
@@ -139,7 +139,7 @@ def action_wrapperOrdreDirect(hermes, intentMessage, conf):
     print("actionText "+actionText)
     DomoticzRealName=""
     MyAction=ActionneEntity(actionText,'On',myListSceneOrSwitch,conf)
-    result_sentence = u"OK {}".format(str(MyAction[1]))  # The response that will be said out loud by the TTS engine.
+    result_sentence = u"OK. Du hast {} angefordert.".format(str(MyAction[1]))  # The response that will be said out loud by the TTS engine.
 
     if MyAction[0] : 
         hermes.publish_end_session(intentMessage.session_id, result_sentence)
@@ -160,9 +160,9 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
         DomoticzRealName=Match[1]
         myAction=myAction and Match[0]
         if intentSwitchAction["State"]=="On": 
-            texte=u"Einschalten"
+            texte = u"Einschalten"
         else:
-            texte=u"Ausschalten"
+            texte = u"Ausschalten"
         actionText=u'{}, {} {}'.format(actionText,texte,str(DomoticzRealName))
     if myAction and len(intentSwitchActionList)>0: 
         hermes.publish_end_session(intentMessage.session_id, actionText)
