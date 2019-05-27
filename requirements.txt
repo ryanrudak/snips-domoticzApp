@@ -2,3 +2,4 @@
 hermes-python>=0.2
 requests
 jellyfish
+json

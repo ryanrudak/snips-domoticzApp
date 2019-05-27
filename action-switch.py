@@ -35,7 +35,8 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
     myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
-    jsonresponse = response.json()#json.load(response)
+    jsonresponse = response.json() 
+    # json.load(response)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
         myListSceneOrSwitch[(scene["idx"])] = {'Type':'switchscene','Name':myName}
@@ -45,7 +46,8 @@ def getSceneNames(conf,myListSceneOrSwitch):
 def getSwitchNames(conf,myListSceneOrSwitch):
     myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
     response = requests.get(myURL)
-    jsonresponse = response.json() #json.load(response)
+    jsonresponse = response.json() 
+    # json.load(response)
     for sw in jsonresponse["result"]:
         myName=sw["Name"].encode('utf-8')
         myListSceneOrSwitch[(sw["idx"])] = {'Type':'switchlight','Name':myName}
