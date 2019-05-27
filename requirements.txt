@@ -1,5 +1,4 @@
-# Bindings for the hermes protocol 
-hermes-python>=0.2
+# Bindings for the hermes protocol
+hermes-python>=0.7
 requests
 jellyfish
-json
