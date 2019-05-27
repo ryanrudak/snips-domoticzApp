@@ -7,6 +7,7 @@ from hermes_python.ffi.utils import MqttOptions
 from hermes_python.ontology import *
 import io
 import requests
+import urllib3
 import json
 import jellyfish
 
