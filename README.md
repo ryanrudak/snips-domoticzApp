@@ -1,3 +1,5 @@
+# still under development!
+
 # Generated Snips skill
 
 This is a generated Python 3 snips app, using the `snips-template` tool.
