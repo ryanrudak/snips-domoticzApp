@@ -47,8 +47,8 @@ def subscribe_intent_callback(hermes, intentMessage):
 #     action_wrapperOrdreDirect(hermes, intentMessage, conf)
 #    else:
     print('---------Ordre Action----------')
-	domoticz_port = conf['secret'].get("port")
-	domoticz_server = conf['secret'].get("hostname")
+	domoticz_port = conf.get("secret").get("port")
+	domoticz_server = conf.get("secret").get("hostname")
 	print(domoticz_port)
 	print(domoticz_server)
     action_wrapperOrdre(hermes, intentMessage, conf)
@@ -56,8 +56,6 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-    domoticz_port = conf.get['secret'].get("port")
-	domoticz_server = conf.get['secret'].get("hostname")
 	myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
     # jsonresponse = response.json()
