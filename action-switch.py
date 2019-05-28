@@ -129,6 +129,8 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
 def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     print(conf)
+    print(hermes)
+    print(intentMessage)
     # a=IntentClassifierResult(intentMessage).intent_name
 #    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
 #    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
@@ -157,10 +159,10 @@ def action_wrapperOrdreDirect(hermes, intentMessage, conf):
 
 def action_wrapperOrdre(hermes, intentMessage, conf):
     myListSceneOrSwitch=dict()
-    myListSceneOrSwitch= getSceneNames(conf,myListSceneOrSwitch)
     print("Scenen ermitteln")
-    myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
+    myListSceneOrSwitch= getSceneNames(conf,myListSceneOrSwitch)
     print("Schalter ermitteln")
+    myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
     intentSwitchActionList=BuildActionSlotList(intentMessage)
     actionText=""
     myAction = True
