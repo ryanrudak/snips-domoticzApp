@@ -34,14 +34,30 @@ def read_configuration_file(configuration_file):
 #    conf = read_configuration_file(CONFIG_INI)
 #    action_wrapper(hermes, intentMessage, conf)
 
+def subscribe_intent_callback(hermes, intentMessage):
+    conf = read_configuration_file(CONFIG_INI)
+    print(conf)
+    print(hermes)
+    print(intentMessage)
+    # a=IntentClassifierResult(intentMessage).intent_name
+#    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
+#    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
+#    if len(intentMessage.slots.intensity) > 0:
+#     print('---------Ordre Divers----------')
+#     action_wrapperOrdreDirect(hermes, intentMessage, conf)
+#    else:
+    print('---------Ordre Action----------')
+    action_wrapperOrdre(hermes, intentMessage, conf)
 
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-    myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    domoticz_port = conf.get("secret").get("port")
+	domoticz_server = conf.get("secret").get("hostname")
+	myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
-    jsonresponse = response.json()
-    # json.load(response)
+    # jsonresponse = response.json()
+    jsonresponse = json.load(response.text)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
         myListSceneOrSwitch[(scene["idx"])] = {'Type':'switchscene','Name':myName}
@@ -124,22 +140,6 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
         hermes.publish_end_session(intent_message.session_id, "Einschalten "+lowest_name)
     else:
         return False,DomoticzRealName
-
-
-def subscribe_intent_callback(hermes, intentMessage):
-    conf = read_configuration_file(CONFIG_INI)
-    print(conf)
-    print(hermes)
-    print(intentMessage)
-    # a=IntentClassifierResult(intentMessage).intent_name
-#    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
-#    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
-#    if len(intentMessage.slots.intensity) > 0:
-#     print('---------Ordre Divers----------')
-#     action_wrapperOrdreDirect(hermes, intentMessage, conf)
-#    else:
-    print('---------Ordre Action----------')
-    action_wrapperOrdre(hermes, intentMessage, conf)
 
 
 def action_wrapperOrdreDirect(hermes, intentMessage, conf):
