@@ -129,7 +129,7 @@ def subscribe_intent_callback(hermes, intentMessage):
     print(conf)
     # a=IntentClassifierResult(intentMessage).intent_name
 #    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
-    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?")
+    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?", ["ryanrudak:switch"])
     if len(intentMessage.slots.OrdreDivers) > 0:
      print('---------OrdreDivers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
@@ -182,5 +182,5 @@ if __name__ == "__main__":
     mqtt_opts = MqttOptions()
     with Hermes(mqtt_options=mqtt_opts) as h:
         h.subscribe_intent("ryanrudak:switch", subscribe_intent_callback) \
-        .subscribe_intent("ryanrudak:dimmBefehle", subscribe_intent_callback) \
+#        .subscribe_intent("ryanrudak:dimmBefehle", subscribe_intent_callback) \
          .start()
