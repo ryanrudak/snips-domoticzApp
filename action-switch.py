@@ -28,9 +28,9 @@ def read_configuration_file(configuration_file):
     except (IOError, configparser.Error) as e:
         return dict()
 
-def subscribe_intent_callback(hermes, intentMessage):
-    conf = read_configuration_file(CONFIG_INI)
-    action_wrapper(hermes, intentMessage, conf)
+#def subscribe_intent_callback(hermes, intentMessage):
+#    conf = read_configuration_file(CONFIG_INI)
+#    action_wrapper(hermes, intentMessage, conf)
 
 
 def getSceneNames(conf,myListSceneOrSwitch):
@@ -130,8 +130,8 @@ def subscribe_intent_callback(hermes, intentMessage):
     # a=IntentClassifierResult(intentMessage).intent_name
 #    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
     hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
-    if len(intentMessage.slots.action) > 0:
-     print('---------OrdreDivers----------')
+    if len(intentMessage.slots.intensity) > 0:
+     print('---------Ordre Divers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
     else:
      print('---------Ordre Action----------')
