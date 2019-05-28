@@ -62,7 +62,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
     print(" - getSceneNames - - - in der Funktion Scenen ermitteln")
-    myURL="http://"+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
+    myURL="http://"+conf['secret'].get("username")+':'+conf.get('secret').get("passwd")+'@'+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
     print(myURL)
     response = requests.get(myURL)
     print(response.text)
