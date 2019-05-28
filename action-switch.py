@@ -47,17 +47,22 @@ def subscribe_intent_callback(hermes, intentMessage):
 #     action_wrapperOrdreDirect(hermes, intentMessage, conf)
 #    else:
     print('---------Ordre Action----------')
-    domoticz_port = conf.get("secret").get("port")
-    domoticz_server = conf.get("secret").get("hostname")
+    # conf['global'].get("openhab_server_port")
+    domoticz_port = conf.get('secret').get("port")
+    domoticz_server = conf.get('secret').get("hostname")
     print(domoticz_port)
     print(domoticz_server)
+    _domoticz_port = conf['secret'].get("port")
+    _domoticz_server = conf['secret'].get("hostname")
+    print(_domoticz_port)
+    print(_domoticz_server)
     action_wrapperOrdre(hermes, intentMessage, conf)
 
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
     print(" - getSceneNames - - - in der Funktion Scenen ermitteln")
-    myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    myURL="http://"+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
     response = requests.get(myURL)
     # jsonresponse = response.json()
     jsonresponse = json.load(response)
