@@ -46,9 +46,9 @@ def subscribe_intent_callback(hermes, intentMessage):
 #     print('---------Ordre Divers----------')
 #     action_wrapperOrdreDirect(hermes, intentMessage, conf)
 #    else:
-    print('---------Ordre Action----------')
-	domoticz_port = conf.get("secret").get("port")
-	domoticz_server = conf.get("secret").get("hostname")
+	print('---------Ordre Action----------')
+    domoticz_port = conf.get("secret").get("port")
+    domoticz_server = conf.get("secret").get("hostname")
 	print(domoticz_port)
 	print(domoticz_server)
     action_wrapperOrdre(hermes, intentMessage, conf)
