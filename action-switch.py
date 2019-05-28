@@ -46,7 +46,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
     return myListSceneOrSwitch
 
 def getSwitchNames(conf,myListSceneOrSwitch):
-    response = urllib3.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches'
+    response = urllib3.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
     jsonresponse = json.load(response)
 #    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
 #    response = requests.get(myURL)
