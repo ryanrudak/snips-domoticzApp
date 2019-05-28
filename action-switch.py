@@ -129,8 +129,8 @@ def subscribe_intent_callback(hermes, intentMessage):
     print(conf)
     # a=IntentClassifierResult(intentMessage).intent_name
 #    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
-    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?", ["ryanrudak:switch"])
-    if len(intentMessage.slots.OrdreDivers) > 0:
+    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
+    if len(intentMessage.slots.action) > 0:
      print('---------OrdreDivers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
     else:
