@@ -33,11 +33,11 @@ def subscribe_intent_callback(hermes, intentMessage):
 
 
 def getSceneNames(conf,myListSceneOrSwitch):
-    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
-    jsonresponse = json.load(response)
-#    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
-#    response = requests.get(myURL)
-#    jsonresponse = response.json()
+#    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
+#    jsonresponse = json.load(response)
+    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    response = requests.get(myURL)
+    jsonresponse = response.json()
     # json.load(response)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
@@ -46,11 +46,11 @@ def getSceneNames(conf,myListSceneOrSwitch):
     return myListSceneOrSwitch
 
 def getSwitchNames(conf,myListSceneOrSwitch):
-    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
-    jsonresponse = json.load(response)
-#    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
-#    response = requests.get(myURL)
-#    jsonresponse = response.json() 
+#    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
+#    jsonresponse = json.load(response)
+    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
+    response = requests.get(myURL)
+    jsonresponse = response.json() 
     # json.load(response)
     for sw in jsonresponse["result"]:
         myName=sw["Name"].encode('utf-8')
@@ -126,8 +126,9 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
 def subscribe_intent_callback(hermes, intentMessage):    
     conf = read_configuration_file(CONFIG_INI)
     print(conf)
-    #a=IntentClassifierResult(intentMessage).intent_name
-    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
+    # a=IntentClassifierResult(intentMessage).intent_name
+#    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
+    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?")
     if len(intentMessage.slots.OrdreDivers) > 0:
      print('---------OrdreDivers----------')
      action_wrapperOrdreDirect(hermes, intentMessage, conf)
