@@ -50,12 +50,16 @@ def subscribe_intent_callback(hermes, intentMessage):
     # conf['global'].get("openhab_server_port")
     domoticz_port = conf.get('secret').get("port")
     domoticz_server = conf.get('secret').get("hostname")
+    domoticz_user = conf.get('secret').get("username")
     print(domoticz_port)
     print(domoticz_server)
+    print(domoticz_user)
     _domoticz_port = conf['secret'].get("port")
     _domoticz_server = conf['secret'].get("hostname")
+    _domoticz_server = conf['secret'].get("username")
     print(_domoticz_port)
     print(_domoticz_server)
+    print(domoticz_user)
     action_wrapperOrdre(hermes, intentMessage, conf)
 
 def getSceneNames(conf,myListSceneOrSwitch):
@@ -63,9 +67,9 @@ def getSceneNames(conf,myListSceneOrSwitch):
 #    jsonresponse = json.load(response)
     print(" - getSceneNames - - - in der Funktion Scenen ermitteln")
     myURL="http://"+conf['secret'].get("username")+':'+conf.get('secret').get("passwd")+'@'+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
-    print(myURL)
+    print("URL"+myURL)
     response = requests.get(myURL)
-    print(response.text)
+    print("Response"+response)
     jsonresponse = response.json()
     print(jsonresponse)
     #jsonresponse = json.load(response)
