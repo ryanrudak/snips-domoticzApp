@@ -56,7 +56,7 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-	myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
     # jsonresponse = response.json()
     jsonresponse = json.load(response.text)
