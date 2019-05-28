@@ -6,7 +6,7 @@ from hermes_python.hermes import Hermes
 from hermes_python.ffi.utils import MqttOptions
 from hermes_python.ontology import *
 import io
-import urllib3
+import urllib2
 import json
 import jellyfish
 
@@ -33,7 +33,7 @@ def subscribe_intent_callback(hermes, intentMessage):
 
 
 def getSceneNames(conf,myListSceneOrSwitch):
-    response = urllib3.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
+    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
     jsonresponse = json.load(response)
 #    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
 #    response = requests.get(myURL)
@@ -46,7 +46,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
     return myListSceneOrSwitch
 
 def getSwitchNames(conf,myListSceneOrSwitch):
-    response = urllib3.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
+    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
     jsonresponse = json.load(response)
 #    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
 #    response = requests.get(myURL)
