@@ -56,10 +56,11 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
+    print(" - getSceneNames - - - in der Funktion Scenen ermitteln")
     myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
     # jsonresponse = response.json()
-    jsonresponse = json.load(response.text)
+    jsonresponse = json.load(response)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
         myListSceneOrSwitch[(scene["idx"])] = {'Type':'switchscene','Name':myName}
@@ -161,7 +162,7 @@ def action_wrapperOrdreDirect(hermes, intentMessage, conf):
 
 def action_wrapperOrdre(hermes, intentMessage, conf):
     myListSceneOrSwitch=dict()
-    print("Scenen ermitteln")
+    print(" - action_wrapperOrdre - - - Scenen ermitteln")
     myListSceneOrSwitch= getSceneNames(conf,myListSceneOrSwitch)
     print("Schalter ermitteln")
     myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
