@@ -47,8 +47,8 @@ def subscribe_intent_callback(hermes, intentMessage):
 #     action_wrapperOrdreDirect(hermes, intentMessage, conf)
 #    else:
     print('---------Ordre Action----------')
-	domoticz_port = conf.get("secret").get("port")
-	domoticz_server = conf.get("secret").get("hostname")
+	domoticz_port = conf['secret'].get("port")
+	domoticz_server = conf['secret'].get("hostname")
 	print(domoticz_port)
 	print(domoticz_server)
     action_wrapperOrdre(hermes, intentMessage, conf)
@@ -56,9 +56,9 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-    domoticz_port = conf.get("secret").get("port")
-	domoticz_server = conf.get("secret").get("hostname")
-	myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    domoticz_port = conf.get['secret'].get("port")
+	domoticz_server = conf.get['secret'].get("hostname")
+	myURL='http://'+conf['secret'].get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
     # jsonresponse = response.json()
     jsonresponse = json.load(response.text)
@@ -71,7 +71,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
 def getSwitchNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
 #    jsonresponse = json.load(response)
-    myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
+    myURL='http://'+conf['secret'].get("hostname")+':'+conf['secret'].get("port")+'/json.htm?type=command&param=getlightswitches'
     response = requests.get(myURL)
     jsonresponse = response.json() 
     # json.load(response)
