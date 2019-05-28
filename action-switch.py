@@ -11,6 +11,8 @@ import requests
 import json
 import jellyfish
 
+MAX_JARO_DISTANCE = 0.4
+
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
 
@@ -36,7 +38,7 @@ def read_configuration_file(configuration_file):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
+    myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=scenes'
     response = requests.get(myURL)
     jsonresponse = response.json()
     # json.load(response)
@@ -49,7 +51,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
 def getSwitchNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
 #    jsonresponse = json.load(response)
-    myURL="http://"+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
+    myURL='http://'+conf.get("secret").get("hostname")+':'+conf.get("secret").get("port")+'/json.htm?type=command&param=getlightswitches'
     response = requests.get(myURL)
     jsonresponse = response.json() 
     # json.load(response)
