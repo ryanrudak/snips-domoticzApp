@@ -124,18 +124,18 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
         return False,DomoticzRealName
 
 
-def subscribe_intent_callback(hermes, intentMessage):    
+def subscribe_intent_callback(hermes, intentMessage):
     conf = read_configuration_file(CONFIG_INI)
     print(conf)
     # a=IntentClassifierResult(intentMessage).intent_name
 #    hermes.publish_continue_session(intentMessage.session_id, u"OK, aber?",["ryanrudak:switch","ryanrudak:dimmBefehle"])
-    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
-    if len(intentMessage.slots.intensity) > 0:
-     print('---------Ordre Divers----------')
-     action_wrapperOrdreDirect(hermes, intentMessage, conf)
-    else:
-     print('---------Ordre Action----------')
-     action_wrapperOrdre(hermes, intentMessage, conf)
+#    hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
+#    if len(intentMessage.slots.intensity) > 0:
+#     print('---------Ordre Divers----------')
+#     action_wrapperOrdreDirect(hermes, intentMessage, conf)
+#    else:
+    print('---------Ordre Action----------')
+    action_wrapperOrdre(hermes, intentMessage, conf)
 
 
 def action_wrapperOrdreDirect(hermes, intentMessage, conf):
