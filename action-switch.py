@@ -65,8 +65,9 @@ def getSceneNames(conf,myListSceneOrSwitch):
     myURL="http://"+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
     print(myURL)
     response = requests.get(myURL)
-    print(response)
+    print(response.text)
     jsonresponse = response.json()
+    print(jsonresponse)
     #jsonresponse = json.load(response)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
