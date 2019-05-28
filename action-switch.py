@@ -65,13 +65,9 @@ def subscribe_intent_callback(hermes, intentMessage):
 def getSceneNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf.get("secret").get("hostname")+'/json?type=scenes')
 #    jsonresponse = json.load(response)
-    print(" - getSceneNames - - - in der Funktion Scenen ermitteln")
     myURL="http://"+conf['secret'].get("username")+':'+conf.get('secret').get("passwd")+'@'+conf['secret'].get("hostname")+':'+conf.get('secret').get("port")+"/json.htm?type=scenes"
-    print("URL: "+myURL)
     response = requests.get(myURL)
-    print("Response: "+response.text)
     jsonresponse = response.json()
-    print(jsonresponse)
     #jsonresponse = json.load(response)
     for scene in jsonresponse["result"]:
         myName=scene["Name"].encode('utf-8')
@@ -82,11 +78,8 @@ def getSceneNames(conf,myListSceneOrSwitch):
 def getSwitchNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
 #    jsonresponse = json.load(response)
-    print(" - getSwitchNames - - - in der Funktion Schalter ermitteln")
     myURL='http://'+conf['secret'].get("username")+':'+conf.get('secret').get("passwd")+'@'+conf['secret'].get("hostname")+':'+conf['secret'].get("port")+'/json.htm?type=command&param=getlightswitches'
-    print("URL: "+myURL)
     response = requests.get(myURL)
-    print("Response: "+response.text)
     jsonresponse = response.json() 
     # json.load(response)
     for sw in jsonresponse["result"]:
