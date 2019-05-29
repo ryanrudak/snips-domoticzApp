@@ -58,7 +58,7 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
     print("Schalter ermitteln")
     myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
     intentSwitchActionList=BuildActionSlotList(intentMessage)
-    print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList)
+    print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList.text)
     actionText=""
     myAction = True
     for intentSwitchAction in intentSwitchActionList:
@@ -120,18 +120,19 @@ def BuildActionSlotList(intent):
         print(" - BuildActionSlotList - action: "+slot_value)
         if slot_value=="action":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
+            print(" - BuildAcitionSlotList - slot[0].slot_value.value: "+slot[0].slot_value.value)
             print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
             if slot[0].slot_value.value.value=="TurnOn":
                 intentSwitchState='On'
                 print(" - Wenn TurnOn, dann: "+intentSwitchState)
             else :
                 intentSwitchState='Off'
-                print(" - ansonsten, dann: "+intentSwitchState)
-                print("SchalterStatus: "+intentSwitchState)
+                print("     - ansonsten, dann: "+intentSwitchState)
+                print("     - SchalterStatus: "+intentSwitchState)
         elif slot_value=="switch":
             for slot_value2 in slot.all():
                 intentSwitchList.append(slot_value2.value)
-                print("Slotvalue: "+slot_value2.value)
+                print("     - Slotvalue: "+slot_value2.value)
 
         # wenn intentSwitchState nicht 'None' enthält, dann mySwitch zusammenstellen
     if not intentSwitchState=='None':
