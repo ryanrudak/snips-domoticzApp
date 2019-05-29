@@ -193,6 +193,6 @@ def action_wrapperOrdreDirect(hermes, intentMessage, conf):
 if __name__ == "__main__":
     mqtt_opts = MqttOptions()
     with Hermes(mqtt_options=mqtt_opts) as h:
-    h.subscribe_intent("ryanrudak:switch", subscribe_intent_callback)\
-    .subscribe_intent("ryanrudak:diverse", subscribe_intent_callback)\
-    .start()
+        h.subscribe_intent("ryanrudak:switch", subscribe_intent_callback)\
+        .subscribe_intent("ryanrudak:diverse", subscribe_intent_callback)\
+        .start()
