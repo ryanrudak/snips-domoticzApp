@@ -120,7 +120,7 @@ def BuildActionSlotList(intent):
         print(" - BuildActionSlotList - action: "+slot_value)
         if slot_value=="action":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
-            print(" - BuildAcitionSlotList - slot[0].slot_value.value: "+slot[0].slot_value.value)
+            print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[1].slot_value.value.value)
             print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
             if slot[0].slot_value.value.value=="TurnOn":
                 intentSwitchState='On'
