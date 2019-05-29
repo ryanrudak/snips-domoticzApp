@@ -43,12 +43,12 @@ def subscribe_intent_callback(hermes, intentMessage):
     hermes.publish_continue_session(intentMessage.session_id, u"OK,",["ryanrudak:switch","ryanrudak:diverse"])
     # hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
     if len(intentMessage.slots.diverse) > 0:
-	print('---------diverse direkt----------')
-	action_wrapperOrdreDirect(hermes, intentMessage, conf)
+        print('---------diverse direkt----------')
+        action_wrapperOrdreDirect(hermes, intentMessage, conf)
     else:
-	print('---------diverse Aktionen----------')
+        print('---------diverse Aktionen----------')
     # conf['global'].get("openhab_server_port")
-	action_wrapperOrdre(hermes, intentMessage, conf)
+        action_wrapperOrdre(hermes, intentMessage, conf)
 
 
 def action_wrapperOrdre(hermes, intentMessage, conf):
@@ -117,23 +117,23 @@ def BuildActionSlotList(intent):
               print("Slot_Value2: "+slot_value2.value)
     print("---------------------------------")
     for (slot_value, slot) in intent.slots.items():
-	print(" - BuildActionSlotList - action: "+slot_value)
+        print(" - BuildActionSlotList - action: "+slot_value)
         if slot_value=="action":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
-	    print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
+            print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
             if slot[0].slot_value.value.value=="TurnOn":
                 intentSwitchState='On'
-		print(" - Wenn TurnOn, dann: "+intentSwitchState)
+                print(" - Wenn TurnOn, dann: "+intentSwitchState)
             else :
                 intentSwitchState='Off'
-		print(" - ansonsten, dann: "+intentSwitchState)
-            print("SchalterStatus: "+intentSwitchState)
+                print(" - ansonsten, dann: "+intentSwitchState)
+                print("SchalterStatus: "+intentSwitchState)
         elif slot_value=="switch":
             for slot_value2 in slot.all():
                 intentSwitchList.append(slot_value2.value)
                 print("Slotvalue: "+slot_value2.value)
-	
-	# wenn intentSwitchState nicht 'None' enthält, dann mySwitch zusammenstellen
+
+        # wenn intentSwitchState nicht 'None' enthält, dann mySwitch zusammenstellen
     if not intentSwitchState=='None':
         for mySwitch in intentSwitchList:
             intentSwitchActionList.append({'Name':mySwitch,'State':intentSwitchState})
