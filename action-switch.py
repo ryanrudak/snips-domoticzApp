@@ -119,7 +119,6 @@ def BuildActionSlotList(intent):
     for (slot_value, slot) in intent.slots.items():
         print(" BuildActionSlotList - action: "+slot_value)
         print("   slot_value: "+slot_value)
-        print("   slot:       "+slot)
         if slot_value=="action":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
             print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
