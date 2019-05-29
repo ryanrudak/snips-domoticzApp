@@ -43,12 +43,12 @@ def subscribe_intent_callback(hermes, intentMessage):
     hermes.publish_continue_session(intentMessage.session_id, u"OK,",["ryanrudak:switch","ryanrudak:diverse"])
     # hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
     if len(intentMessage.slots.diverse) > 0:
-     print('---------diverse direkt----------')
-     action_wrapperOrdreDirect(hermes, intentMessage, conf)
+	print('---------diverse direkt----------')
+	action_wrapperOrdreDirect(hermes, intentMessage, conf)
     else:
-    print('---------diverse Aktionen----------')
+	print('---------diverse Aktionen----------')
     # conf['global'].get("openhab_server_port")
-    action_wrapperOrdre(hermes, intentMessage, conf)
+	action_wrapperOrdre(hermes, intentMessage, conf)
 
 
 def action_wrapperOrdre(hermes, intentMessage, conf):
