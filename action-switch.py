@@ -50,6 +50,7 @@ def subscribe_intent_callback(hermes, intentMessage):
     # conf['global'].get("openhab_server_port")
     action_wrapperOrdre(hermes, intentMessage, conf)
 
+
 def action_wrapperOrdre(hermes, intentMessage, conf):
     myListSceneOrSwitch=dict()
     print(" - action_wrapperOrdre - - - Scenen ermitteln")
@@ -57,15 +58,15 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
     print("Schalter ermitteln")
     myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
     intentSwitchActionList=BuildActionSlotList(intentMessage)
-	print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList)
+    print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList)
     actionText=""
     myAction = True
     for intentSwitchAction in intentSwitchActionList:
         print("intentSwitchAction: "+intentSwitchAction)
         Match= ActionneEntity(intentSwitchAction["Name"],intentSwitchAction["State"],myListSceneOrSwitch,conf)
-		print("Match: "+Match)
+        print("Match: "+Match)
         DomoticzRealName=Match[1]
-		print("DomoticzRealName: "+DomoticzRealName)
+        print("DomoticzRealName: "+DomoticzRealName)
         myAction=myAction and Match[0]
         if intentSwitchAction["State"]=="On":
             texte = u"Einschalten"
@@ -91,6 +92,7 @@ def getSceneNames(conf,myListSceneOrSwitch):
     print('---------SceneName----------')
     return myListSceneOrSwitch
 
+
 def getSwitchNames(conf,myListSceneOrSwitch):
 #    response = urllib2.urlopen(global_conf("secret").get("hostname")+'/json?type=command&param=getlightswitches')
 #    jsonresponse = json.load(response)
@@ -115,16 +117,16 @@ def BuildActionSlotList(intent):
               print("Slot_Value2: "+slot_value2.value)
     print("---------------------------------")
     for (slot_value, slot) in intent.slots.items():
-		print(" - BuildActionSlotList - action: "+slot_value)
+	print(" - BuildActionSlotList - action: "+slot_value)
         if slot_value=="action":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
-			print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
+	    print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
             if slot[0].slot_value.value.value=="TurnOn":
                 intentSwitchState='On'
-				print(" - Wenn TurnOn, dann: "+intentSwitchState)
+		print(" - Wenn TurnOn, dann: "+intentSwitchState)
             else :
                 intentSwitchState='Off'
-				print(" - ansonsten, dann: "+intentSwitchState)
+		print(" - ansonsten, dann: "+intentSwitchState)
             print("SchalterStatus: "+intentSwitchState)
         elif slot_value=="switch":
             for slot_value2 in slot.all():
