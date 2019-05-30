@@ -40,14 +40,15 @@ def subscribe_intent_callback(hermes, intentMessage):
     print(hermes)
     print(intentMessage)
     # a=IntentClassifierResult(intentMessage).intent_name
-    hermes.publish_continue_session(intentMessage.session_id, u"OK,",["ryanrudak:switch","ryanrudak:diverse"])
-    # hermes.publish_continue_session(intentMessage.session_id, "OK", ["ryanrudak:switch"])
-    if len(intentMessage.slots.diverse) > 0:
+    # hermes.publish_end_session(intentMessage.session_id, u"Ok, das mache ich.")
+    hermes.publish_continue_session(intentMessage.session_id, u"Ok,",["ryanrudak:switch","ryanrudak:verschiedene"])
+    #hermes.publish_continue_session(intentMessage.session_id, "Ok",texte)
+
+    if len(intentMessage.slots.verschiedene) > 0:
         print('---------diverse direkt----------')
         action_wrapperOrdreDirect(hermes, intentMessage, conf)
     else:
         print('---------diverse Aktionen----------')
-    # conf['global'].get("openhab_server_port")
         action_wrapperOrdre(hermes, intentMessage, conf)
 
 
@@ -58,13 +59,13 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
     print("Schalter ermitteln")
     myListSceneOrSwitch= getSwitchNames(conf,myListSceneOrSwitch)
     intentSwitchActionList=BuildActionSlotList(intentMessage)
-    print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList)
+    # print(" - action_wrapperOrdre intentSwitchActionList: "+intentSwitchActionList)
     actionText=""
     myAction = True
     for intentSwitchAction in intentSwitchActionList:
-        print("intentSwitchAction: "+intentSwitchAction)
+        #print("intentSwitchAction: "+intentSwitchAction)
         Match= ActionneEntity(intentSwitchAction["Name"],intentSwitchAction["State"],myListSceneOrSwitch,conf)
-        print("Match: "+Match)
+        #print("Match: "+Match)
         DomoticzRealName=Match[1]
         print("DomoticzRealName: "+DomoticzRealName)
         myAction=myAction and Match[0]
@@ -72,7 +73,7 @@ def action_wrapperOrdre(hermes, intentMessage, conf):
             texte = u"Einschalten"
         else:
             texte = u"Ausschalten"
-        actionText=u'{}, {} {}'.format(actionText,texte,str(DomoticzRealName))
+        # actionText=u'{}, {} {}'.format(actionText,texte,str(DomoticzRealName))
     if myAction and len(intentSwitchActionList)>0:
         hermes.publish_end_session(intentMessage.session_id, actionText)
     else:
@@ -117,8 +118,11 @@ def BuildActionSlotList(intent):
               print("Slot_Value2: "+slot_value2.value)
     print("---------------------------------")
     for (slot_value, slot) in intent.slots.items():
-        print(" - BuildActionSlotList - action: "+slot_value)
-        if slot_value=="action":
+        print('Slot {} -> Raw: {} Value: {}'.format(slot_value, slot[0].raw_value, slot[0].slot_value.value.value))
+#        print('Slot {} -> Raw: {} Value: {}'.format(slot_value, slot[0].raw_value, slot[0].slot_value.value.value))
+        print(" BuildActionSlotList - action: "+slot_value)
+        print("   slot_value: "+slot_value)
+        if slot_value=="switch":
             #NLU parsing does not preserve order of slot, thus it is impossible to have different action ON and OFF in the same intent=> keep only the first:
             print(" - BuildAcitionSlotList - slot[0].slot_value.value.value: "+slot[0].slot_value.value.value)
             if slot[0].slot_value.value.value=="TurnOn":
@@ -126,12 +130,12 @@ def BuildActionSlotList(intent):
                 print(" - Wenn TurnOn, dann: "+intentSwitchState)
             else :
                 intentSwitchState='Off'
-                print(" - ansonsten, dann: "+intentSwitchState)
-                print("SchalterStatus: "+intentSwitchState)
-        elif slot_value=="switch":
+                print("     - ansonsten, dann: "+intentSwitchState)
+                print("     - SchalterStatus: "+intentSwitchState)
+        elif slot_value=="action":
             for slot_value2 in slot.all():
                 intentSwitchList.append(slot_value2.value)
-                print("Slotvalue: "+slot_value2.value)
+                print("     - Slotvalue: "+slot_value2.value)
 
         # wenn intentSwitchState nicht 'None' enthält, dann mySwitch zusammenstellen
     if not intentSwitchState=='None':
@@ -154,11 +158,11 @@ def ActionneEntity(name,action,myListSceneOrSwitch,conf):
     DomoticzRealName=""
     print(" - ActionneEntity: "+MyWord)
     for idx,scene in myListSceneOrSwitch.items():
-        print("Scene: "+str(scene['Name'],'utf-8'))
+        print("Scene/Schalter: "+str(scene['Name'],'utf-8')+" idx: "+idx)
         distance = 1-jellyfish.jaro_distance(str(scene['Name'],'utf-8'), MyWord)
-    #    print "Distance is "+str(distance)
+        print("  Distance is "+str(distance))
         if distance < lowest_distance:
-    #        print "Low enough and lowest!"
+            print("  Low enough and lowest!")
             lowest_distance = distance
             lowest_idx = idx
             lowest_name = scene['Name']
@@ -193,6 +197,6 @@ def action_wrapperOrdreDirect(hermes, intentMessage, conf):
 if __name__ == "__main__":
     mqtt_opts = MqttOptions()
     with Hermes(mqtt_options=mqtt_opts) as h:
-    h.subscribe_intent("ryanrudak:switch", subscribe_intent_callback)\
-    .subscribe_intent("ryanrudak:diverse", subscribe_intent_callback)\
-    .start()
+        h.subscribe_intent("ryanrudak:switch", subscribe_intent_callback)\
+        .subscribe_intent("ryanrudak:verschiedene", subscribe_intent_callback)\
+        .start()
